@@ -1,21 +1,24 @@
+import os  
+import shutil
+
 class CreateFile():
 
 	def __init__(self, type):
 		self.type = type
 
-	def createPython(self):			
-		try:
-			directory = input("Enter desired Directory (Include last backslash): ")
-			directory = directory + "main.py"
+	def create(self, type=None):
+		type = self.type
+		directory = input("Enter desired project directory (include last /): ")
+		while (os.path.isdir(directory) != True):
+			directory = input("Invalid directory, enter a valid directory: ")
 
-			with open(directory, "w") as file_obj:
-				file_obj.write("\n\n__author__ = \"Your Name\"\n__version__ = \"0.1.0\"\n__license__ = \"MIT\"\n\ndef main():\n    print(\"Hello World\")\n\n\nif __name__ == \"__main__\":\n    main()")
-
-		except FileNotFoundError:
-			print("Error creating file. Please try again.")
+		if (directory[-1] != "/"):
+			directory = directory + "/" + "main" + type
 		else:
-			print("New project can be located at " + directory)
+			directory = directory + "main" + type
 
+		shutil.copyfile("./boilerplate/boilerplate" + type, directory)
+		print("Completed... File can be located at: " + directory)
 
 
 '''
